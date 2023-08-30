@@ -12,6 +12,7 @@ import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.FragmentBoardingScreen3Binding
 import com.example.riyadal_qulub.utils.Constant.boardingFinished
 import com.example.riyadal_qulub.utils.Constant.boardingSharedPref
+import com.example.riyadal_qulub.utils.onBoardingFinished
 
 
 class ThirdScreen : Fragment() {
@@ -32,7 +33,7 @@ class ThirdScreen : Fragment() {
 
         binding.btnNext.setOnClickListener {
             navigateToHome()
-            onBoardingFinished()
+            onBoardingFinished(requireActivity())
         }
     }
 
@@ -43,10 +44,5 @@ class ThirdScreen : Fragment() {
        }
     }
 
-    private fun onBoardingFinished() {
-        val sharedPref = activity?.getSharedPreferences(boardingSharedPref, 0)
-        val editor = sharedPref?.edit()
-        editor?.putBoolean(boardingFinished, true)
-        editor?.apply()
-    }
+
 }

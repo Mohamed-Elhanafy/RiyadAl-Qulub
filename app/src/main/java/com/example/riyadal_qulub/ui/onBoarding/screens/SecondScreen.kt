@@ -1,5 +1,6 @@
 package com.example.riyadal_qulub.ui.onBoarding.screens
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.riyadal_qulub.databinding.FragmentBoardingScreen2Binding
+import com.example.riyadal_qulub.ui.home.HomeActivity
+import com.example.riyadal_qulub.utils.onBoardingFinished
 
 
 class SecondScreen : Fragment() {
@@ -22,6 +25,13 @@ class SecondScreen : Fragment() {
 
         binding.btnNext.setOnClickListener {
             viewPager?.currentItem = 2
+        }
+        binding.tvSkip.setOnClickListener {
+            onBoardingFinished(requireActivity())
+            Intent (activity, HomeActivity::class.java).also {
+                startActivity(it)
+                activity?.finish()
+            }
         }
         return binding.root
     }
