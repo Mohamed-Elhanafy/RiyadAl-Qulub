@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RiyadAlQulub"
         tools:targetApi="31">
         <activity
+            android:name=".ui.authentication.AuthenticationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.onBoarding.OnBoardingActivity"
             android:exported="false" />
         <activity
