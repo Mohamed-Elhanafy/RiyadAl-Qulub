@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.riyadal_qulub.databinding.FragmentBoardingScreen2Binding
+import com.example.riyadal_qulub.ui.authentication.AuthenticationActivity
 import com.example.riyadal_qulub.ui.home.HomeActivity
 import com.example.riyadal_qulub.utils.onBoardingFinished
 
@@ -28,7 +29,7 @@ class SecondScreen : Fragment() {
         }
         binding.tvSkip.setOnClickListener {
             onBoardingFinished(requireActivity())
-            Intent (activity, HomeActivity::class.java).also {
+            Intent (activity, AuthenticationActivity::class.java).also {
                 startActivity(it)
                 activity?.finish()
             }

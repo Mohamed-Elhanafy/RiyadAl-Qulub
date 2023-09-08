@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.riyadal_qulub.R
 
 import com.example.riyadal_qulub.databinding.FragmentBoardingScreen3Binding
+import com.example.riyadal_qulub.ui.authentication.AuthenticationActivity
 import com.example.riyadal_qulub.utils.Constant.boardingFinished
 import com.example.riyadal_qulub.utils.Constant.boardingSharedPref
 import com.example.riyadal_qulub.utils.onBoardingFinished
@@ -38,7 +39,7 @@ class ThirdScreen : Fragment() {
     }
 
     private fun navigateToHome() {
-       Intent (activity, com.example.riyadal_qulub.ui.home.HomeActivity::class.java).also {
+       Intent (activity, AuthenticationActivity::class.java).also {
            startActivity(it)
            activity?.finish()
        }

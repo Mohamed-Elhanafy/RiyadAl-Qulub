@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.riyadal_qulub.ui.authentication.SignUpFragment"
+        android:name="com.example.riyadal_qulub.ui.authentication.SignInFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
 </navigation>
