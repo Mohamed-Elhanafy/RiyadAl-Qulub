@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (onBoardingFinished()) {
-            if (FirebaseAuth.getInstance().currentUser != null) {
+            if (checkIfUserSignedIn()) {
                 navigateToHome()
             } else {
                 navigateToAuth()
@@ -26,11 +26,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkIfUserSignedIn() = FirebaseAuth.getInstance().currentUser != null
+
     private fun navigateToAuth() {
         Intent(this, AuthenticationActivity::class.java).also {
             startActivity(it)
             finish()
-        }    }
+        }
+    }
 
     private fun navigateToOnBoarding() {
         Intent(this, OnBoardingActivity::class.java).also {
@@ -47,7 +50,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onBoardingFinished(): Boolean {
-
         val sharedPref =
             this?.getSharedPreferences(Constant.boardingSharedPref, Context.MODE_PRIVATE)
         return sharedPref!!.getBoolean(Constant.boardingFinished, false)
