@@ -3,11 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_nav"
-    app:startDestination="@id/signUpFragment">
+    app:startDestination="@id/SignInFragment">
 
     <fragment
-        android:id="@+id/signUpFragment"
+        android:id="@+id/SignInFragment"
         android:name="com.example.riyadal_qulub.ui.authentication.SignInFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_SignInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.riyadal_qulub.ui.authentication.SignUpFragment"
+        android:label="fragment_sign_up2"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_SignInFragment"
+            app:destination="@id/SignInFragment" />
+    </fragment>
 </navigation>

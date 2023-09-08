@@ -5,4 +5,6 @@
     <string name="email_et_hint">ادخل البريد</string>
     <string name="password_et_hint">كلمة المرور</string>
     <string name="new_user_text">هل انت مستخدم جديد</string>
+    <string name="name_et_hint">"الإسم "</string>
+    <string name="old_user_text">بالفعل تمتلك حساب</string>
 </resources>

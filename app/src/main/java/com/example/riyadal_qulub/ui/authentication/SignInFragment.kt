@@ -10,19 +10,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.riyadal_qulub.databinding.FragmentSignUpBinding
+import androidx.navigation.fragment.findNavController
+import com.example.riyadal_qulub.R
+import com.example.riyadal_qulub.databinding.FragmentSignInBinding
 import com.example.riyadal_qulub.ui.home.HomeActivity
 
-private const val TAG = "SignUpFragment"
+private const val TAG = "SignInFragment"
 
 class SignInFragment : Fragment() {
-    private lateinit var binding: FragmentSignUpBinding
+    private lateinit var binding: FragmentSignInBinding
     private val viewmodel: AuthViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        binding = FragmentSignInBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -30,11 +32,13 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvNewAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_SignInFragment_to_signUpFragment)
+        }
 
         binding.btnSignIn.setOnClickListener {
             val email = binding.emailEt.editText?.text.toString()
             val password = binding.passwordEt.editText?.text.toString()
-
 
             val isValid = validateInputs(email, password)
 
@@ -49,7 +53,7 @@ class SignInFragment : Fragment() {
         }
 
         // Observe the sign-up error message
-        viewmodel.signUpError.observe(viewLifecycleOwner) { errorMessage ->
+        viewmodel.signInError.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
             }
