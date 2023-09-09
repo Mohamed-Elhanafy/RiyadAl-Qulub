@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="الرئيسية"
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:checkable="true"/>
+    <item android:title="الإحصائيات"
+        android:id="@+id/statisticsFragment"
+        android:icon="@drawable/ic_statistics"
+        android:checkable="true"/>
+    <item android:title="الإعدادات"
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:checkable="true"/>
+
+</menu>
