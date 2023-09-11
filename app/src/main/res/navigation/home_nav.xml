@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.riyadal_qulub.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_newWirdFragment"
+            app:destination="@id/newWirdFragment" />
+    </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.example.riyadal_qulub.ui.home.StatisticsFragment"
@@ -20,4 +24,13 @@
         android:name="com.example.riyadal_qulub.ui.home.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/newWirdFragment"
+        android:name="com.example.riyadal_qulub.ui.home.NewWirdFragment"
+        android:label="fragment_new_wird"
+        tools:layout="@layout/fragment_new_wird" >
+        <action
+            android:id="@+id/action_newWirdFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

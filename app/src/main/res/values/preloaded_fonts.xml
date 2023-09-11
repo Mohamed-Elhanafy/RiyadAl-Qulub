@@ -3,5 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/baloo_bhaijaan</item>
         <item>@font/tajawal</item>
+        <item>@font/tajawal_bold</item>
+        <item>@font/tajawal_extrabold</item>
     </array>
 </resources>

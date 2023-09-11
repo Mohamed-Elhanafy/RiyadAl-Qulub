@@ -10,7 +10,7 @@
         android:id="@+id/empty_animation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -19,7 +19,8 @@
         app:layout_constraintVertical_bias="0.5"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/empty" />
+        app:lottie_rawRes="@raw/empty"
+        tools:visibility="gone" />
 
     <View
         android:id="@+id/top_bar"

@@ -7,7 +7,8 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_day_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/tajawal"
@@ -18,7 +19,8 @@
         android:textColor="@color/black"
         android:textSize="12sp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_day_number"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="6dp"
