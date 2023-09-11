@@ -9,12 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 
-import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.FragmentSignUpBinding
 import com.example.riyadal_qulub.ui.home.HomeActivity
-import com.example.riyadal_qulub.utils.Constant
+import com.example.riyadal_qulub.utils.PreferenceKeys
 
 private const val TAG = "SignUpFragment"
 
@@ -73,10 +71,10 @@ class SignUpFragment : Fragment() {
 
     private fun saveUser(name: String) {
         val sharedPreferences =
-            requireActivity().getSharedPreferences(Constant.nameSharedPref, MODE_PRIVATE)
+            requireActivity().getSharedPreferences(PreferenceKeys.nameSharedPref, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.apply {
-            putString(Constant.nameStringSharedPref, name)
+            putString(PreferenceKeys.nameStringSharedPref, name)
         }.apply()
 
     }

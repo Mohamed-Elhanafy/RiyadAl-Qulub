@@ -7,7 +7,7 @@ import android.os.Bundle
 import com.example.riyadal_qulub.ui.authentication.AuthenticationActivity
 import com.example.riyadal_qulub.ui.home.HomeActivity
 import com.example.riyadal_qulub.ui.onBoarding.OnBoardingActivity
-import com.example.riyadal_qulub.utils.Constant
+import com.example.riyadal_qulub.utils.PreferenceKeys
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onBoardingFinished(): Boolean {
         val sharedPref =
-            this?.getSharedPreferences(Constant.boardingSharedPref, Context.MODE_PRIVATE)
-        return sharedPref!!.getBoolean(Constant.boardingFinished, false)
+            this?.getSharedPreferences(PreferenceKeys.boardingSharedPref, Context.MODE_PRIVATE)
+        return sharedPref!!.getBoolean(PreferenceKeys.boardingFinished, false)
     }
 }

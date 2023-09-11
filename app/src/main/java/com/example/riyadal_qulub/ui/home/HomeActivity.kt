@@ -12,7 +12,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        //setupBottomNavigation()
+        setupBottomNavigation()
     }
 
     private fun setupBottomNavigation() {

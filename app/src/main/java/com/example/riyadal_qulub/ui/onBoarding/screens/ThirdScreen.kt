@@ -6,13 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.riyadal_qulub.R
 
 import com.example.riyadal_qulub.databinding.FragmentBoardingScreen3Binding
 import com.example.riyadal_qulub.ui.authentication.AuthenticationActivity
-import com.example.riyadal_qulub.utils.Constant.boardingFinished
-import com.example.riyadal_qulub.utils.Constant.boardingSharedPref
 import com.example.riyadal_qulub.utils.onBoardingFinished
 
 
