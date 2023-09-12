@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,17 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riyadal_qulub.R
 
 import com.example.riyadal_qulub.databinding.FragmentNewWirdBinding
 import com.example.riyadal_qulub.db.WirdDatabase
+import com.example.riyadal_qulub.entity.DayTask
 import com.example.riyadal_qulub.entity.Wird
+import com.example.riyadal_qulub.ui.adapter.DaysAdapter
+import com.example.riyadal_qulub.utils.WeekDays
+import com.example.riyadal_qulub.utils.getNextSevenDays
 import com.example.riyadal_qulub.viewmodel.AddWirdViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -26,9 +33,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
+private const val TAG = "NewWirdFragment"
+
 class NewWirdFragment : Fragment() {
+
     private lateinit var binding: FragmentNewWirdBinding
     private val viewModel: AddWirdViewModel by viewModels()
+    private val offerAdapter by lazy { DaysAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +54,12 @@ class NewWirdFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val database = WirdDatabase.getDatabase(requireContext())
+        offerAdapter.onClick = {
 
+            Log.i(TAG, offerAdapter.differ.currentList.filter { it.isDone }.size.toString())
+        }
+
+        setUpdaysRv()
         wirdrepeat()
         getStartingDate()
         getStartingTime()
@@ -58,8 +74,47 @@ class NewWirdFragment : Fragment() {
                 unit = binding.etWirdUnit.editText?.text.toString(),
                 quantity = binding.etWirdQuantity.editText?.text.toString().toInt(),
                 isAlarm = binding.switchAlarm.isChecked,
+                alarmTime = binding.etWirdTime.editText?.text.toString(),
+                wirdDays = getWeeksDays(),
             )
             viewModel.addNewWird(database, wird)
+            navigateToHome()
+        }
+    }
+
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_newWirdFragment_to_homeFragment)
+    }
+
+    private fun getWeeksDays(): List<Int> {
+        val days = mutableListOf<Int>()
+        offerAdapter.differ.currentList.forEach {
+            if (it.isDone) {
+                //convert month day to day of week number
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.DAY_OF_MONTH, it.dayMonth)
+                days.add(cal.get(Calendar.DAY_OF_WEEK))
+            }
+        }
+        return days
+    }
+
+
+    private fun setUpdaysRv() {
+
+
+        offerAdapter.differ.submitList(
+            getNextSevenDays()
+        )
+        binding.rvDays.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true).apply {
+
+                    isSmoothScrollbarEnabled = false
+
+                }
+            adapter = offerAdapter
+
         }
     }
 

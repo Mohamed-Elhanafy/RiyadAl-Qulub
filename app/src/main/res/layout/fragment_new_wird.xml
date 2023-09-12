@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:checked="true"
+        android:checked="false"
         android:fontFamily="@font/tajawal_bold"
         android:text="تكرار الورد يومياً"
         app:layout_constraintEnd_toEndOf="@+id/et_wird_name"
@@ -58,14 +58,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="4dp"
+        android:layout_margin="16dp"
         android:layoutMode="opticalBounds"
         android:orientation="horizontal"
-        android:weightSum="7"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_repeat_daily"
+
         tools:itemCount="7"
         tools:listitem="@layout/days_item" />
 
@@ -178,8 +178,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:fontFamily="@font/tajawal"
+            android:inputType="number"
+            android:text="0"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 

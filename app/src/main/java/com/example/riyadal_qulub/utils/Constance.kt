@@ -17,6 +17,15 @@ object Prayers {
     const val ISHA = 5
     const val QIYYAM = 6
 }
+object WeekDays{
+    const val SATURDAY = 0
+    const val SUNDAY = 1
+    const val MONDAY = 2
+    const val TUESDAY = 3
+    const val WEDNESDAY = 4
+    const val THURSDAY = 5
+    const val FRIDAY = 6
+}
 
 var PRAYER_LIST = intArrayOf(
     Prayers.FAJR, Prayers.DHUHR, Prayers.ASR,

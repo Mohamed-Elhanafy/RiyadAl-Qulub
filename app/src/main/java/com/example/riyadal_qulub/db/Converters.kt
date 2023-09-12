@@ -26,5 +26,14 @@ class Converters {
         return Gson().fromJson(logs, Array<Log>::class.java).toList()
     }
 
+    @TypeConverter
+    fun fromIntListToGson(intList:List<Int>):String{
+        return Gson().toJson(intList)
+    }
+    @TypeConverter
+    fun fromGsonToIntList(intList:String):List<Int>{
+        return Gson().fromJson(intList, Array<Int>::class.java).toList()
+    }
+
 
 }

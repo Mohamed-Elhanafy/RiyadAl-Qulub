@@ -1,8 +1,8 @@
 package com.example.riyadal_qulub.entity
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.example.riyadal_qulub.utils.WeekDays
 import java.util.Date
 
 @Entity(tableName = "wirds")
@@ -15,7 +15,7 @@ data class Wird(
     var isDone: Boolean = false,
     var isAlarm: Boolean = false,
     var alarmTime: String = "",
-    var alarmDays: List<Date> = emptyList(),
+    var wirdDays: List<Int> = emptyList(),
     var unit: String = "",
     var quantity: Int = 0,
     var isDaily: Boolean = false,
