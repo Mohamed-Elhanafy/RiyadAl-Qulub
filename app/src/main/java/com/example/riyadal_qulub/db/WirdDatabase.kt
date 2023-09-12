@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.riyadal_qulub.entity.Wird
-import com.example.riyadal_qulub.utils.Constants.DATABASE_NAME
+import com.example.riyadal_qulub.utils.DatabaseConstants.DATABASE_NAME
 
 @Database(entities = [Wird::class], version = 1)
 @TypeConverters(Converters::class)

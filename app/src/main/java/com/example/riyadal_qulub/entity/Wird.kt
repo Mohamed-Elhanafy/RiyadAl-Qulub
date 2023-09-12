@@ -29,4 +29,5 @@ data class Wird(
     var totalCompletion: List<Date> = emptyList(),
     var monthlyRate: Int = 0,
     var timestamp: String = ""
+
 )

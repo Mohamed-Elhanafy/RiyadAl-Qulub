@@ -77,6 +77,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
         android:hint="@string/et_start_date_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +114,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/et_alarm_time_hint"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_alarm">
@@ -127,10 +131,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:checked="false"
         android:fontFamily="@font/tajawal_bold"
         android:text="اضافة وحدة قياس للورد"
-        app:layout_constraintEnd_toEndOf="@+id/et_wird_time"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_wird_time" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -142,6 +147,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/et_wird_unit_hint"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/switch_wird_unit">
@@ -150,6 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/tajawal"
+
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,6 +170,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/et_wird_quantity_hint"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_wird_unit">
@@ -170,6 +178,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:fontFamily="@font/tajawal"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -50,3 +50,7 @@ object FastingTypes {
     const val NAZR = 5
     const val NONE = 0
 }
+
+object DatabaseConstants {
+     const val DATABASE_NAME = "wird_database"
+}
