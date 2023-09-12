@@ -40,7 +40,7 @@ class DaysAdapter() :
         }
 
     }
-    val differ = AsyncListDiffer(this, diffCallback)
+    val daysDiffer = AsyncListDiffer(this, diffCallback)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DaysAdapter.DaysViewHolder {
         return DaysViewHolder(
             DaysItemBinding.inflate(
@@ -50,7 +50,7 @@ class DaysAdapter() :
     }
 
     override fun onBindViewHolder(holder: DaysAdapter.DaysViewHolder, position: Int) {
-        val day = differ.currentList[position]
+        val day = daysDiffer.currentList[position]
         holder.bind(day)
         holder.itemView.setOnClickListener {
             day.isDone = !day.isDone
@@ -61,7 +61,7 @@ class DaysAdapter() :
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return daysDiffer.currentList.size
     }
 
     var onClick: ((DayTask) -> Unit)? = null

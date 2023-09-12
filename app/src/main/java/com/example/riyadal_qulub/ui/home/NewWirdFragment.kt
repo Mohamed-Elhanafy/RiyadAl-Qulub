@@ -1,16 +1,10 @@
 package com.example.riyadal_qulub.ui.home
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,10 +14,8 @@ import com.example.riyadal_qulub.R
 
 import com.example.riyadal_qulub.databinding.FragmentNewWirdBinding
 import com.example.riyadal_qulub.db.WirdDatabase
-import com.example.riyadal_qulub.entity.DayTask
 import com.example.riyadal_qulub.entity.Wird
 import com.example.riyadal_qulub.ui.adapter.DaysAdapter
-import com.example.riyadal_qulub.utils.WeekDays
 import com.example.riyadal_qulub.utils.getNextSevenDays
 import com.example.riyadal_qulub.viewmodel.AddWirdViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -39,7 +31,7 @@ class NewWirdFragment : Fragment() {
 
     private lateinit var binding: FragmentNewWirdBinding
     private val viewModel: AddWirdViewModel by viewModels()
-    private val offerAdapter by lazy { DaysAdapter() }
+    private val daysAdapter by lazy { DaysAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,9 +46,9 @@ class NewWirdFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val database = WirdDatabase.getDatabase(requireContext())
-        offerAdapter.onClick = {
+        daysAdapter.onClick = {
 
-            Log.i(TAG, offerAdapter.differ.currentList.filter { it.isDone }.size.toString())
+            Log.i(TAG, daysAdapter.daysDiffer.currentList.filter { it.isDone }.size.toString())
         }
 
         setUpdaysRv()
@@ -88,7 +80,7 @@ class NewWirdFragment : Fragment() {
 
     private fun getWeeksDays(): List<Int> {
         val days = mutableListOf<Int>()
-        offerAdapter.differ.currentList.forEach {
+        this.daysAdapter.daysDiffer.currentList.forEach {
             if (it.isDone) {
                 //convert month day to day of week number
                 val cal = Calendar.getInstance()
@@ -103,18 +95,18 @@ class NewWirdFragment : Fragment() {
     private fun setUpdaysRv() {
 
 
-        offerAdapter.differ.submitList(
+        daysAdapter.daysDiffer.submitList(
             getNextSevenDays()
         )
         binding.rvDays.apply {
             layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true).apply {
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, true).apply {
 
                     isSmoothScrollbarEnabled = false
 
                 }
-            adapter = offerAdapter
-
+            adapter = daysAdapter
+            setHasFixedSize(true)
         }
     }
 

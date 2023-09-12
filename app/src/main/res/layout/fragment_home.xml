@@ -20,7 +20,7 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/empty"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/top_bar"
@@ -86,12 +86,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wird_recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/wird_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
