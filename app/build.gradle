@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -55,7 +56,16 @@ dependencies {
     //implementation 'com.github.ahmedeltaher:Azan:3.0'
 
 
-    //animation
+    //animation library
     def lottieVersion = "6.1.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //room database library
+    def room_version = "2.5.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //gson library
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
