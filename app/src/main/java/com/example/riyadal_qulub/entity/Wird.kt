@@ -15,19 +15,10 @@ data class Wird(
     var isDone: Boolean = false,
     var isAlarm: Boolean = false,
     var alarmTime: String = "",
-    var wirdDays: List<Int> = emptyList(),
+    var wirdDays: List<String> = emptyList(),
+    var doneDays: List<String> = emptyList(),
     var unit: String = "",
     var quantity: Int = 0,
     var isDaily: Boolean = false,
-    var customDays: String = "",
     var startDate: String = "",
-    var endDate: String = "",
-    var strikes: Int = 0,
-    var isStrikes: Boolean = false,
-    var logs: List<Log> = emptyList(),
-    var monthlyCompletion: List<Date> = emptyList(),
-    var totalCompletion: List<Date> = emptyList(),
-    var monthlyRate: Int = 0,
-    var timestamp: String = ""
-
 )

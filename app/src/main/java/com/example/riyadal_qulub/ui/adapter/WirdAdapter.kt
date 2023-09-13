@@ -2,18 +2,23 @@ package com.example.riyadal_qulub.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.WirdItemBinding
-import com.example.riyadal_qulub.entity.DayTask
+import com.example.riyadal_qulub.entity.WeekDayItem
 import com.example.riyadal_qulub.entity.Wird
-import com.example.riyadal_qulub.utils.getNextSevenDays
+import com.example.riyadal_qulub.utils.getCurrentDay
 
-class WirdAdapter : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
+class WirdAdapter( private var daysList :List<WeekDayItem>) : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
+    private var onItemClick: ((Wird) -> Unit)? = null
+
+    // Rest of the adapter code
+
+    fun setOnItemClickListener(listener: (Wird) -> Unit) {
+        onItemClick = listener
+    }
     inner class WirdViewHolder(private val binding: WirdItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wird: Wird) {
@@ -26,9 +31,22 @@ class WirdAdapter : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
                     adapter = daysAdapter
                     layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
                 }
-                //todo you need to setting up this list
-                daysAdapter.daysDiffer.submitList(getNextSevenDays())
 
+                daysAdapter.daysDiffer.submitList(daysList)
+
+
+
+
+                //if the DayTask is today set it to true
+                daysAdapter.daysDiffer.currentList.forEach {
+                    if (it.day == getCurrentDay()) {
+                        it.isToday = true
+                    }
+                }
+
+                btnDone.setOnClickListener {
+                    onItemClick?.invoke(wird)
+                }
 
             }
 
@@ -66,7 +84,7 @@ class WirdAdapter : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
         holder.bind(wird)
         holder.itemView.setOnClickListener {
             onClick?.invoke(wird)
-
+            onItemClick?.invoke(wird)
         }
     }
     var onClick: ((Wird) -> Unit)? = null

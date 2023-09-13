@@ -11,12 +11,16 @@ interface WirdDao {
     @Query("SELECT * FROM wirds")
     fun getAll(): List<Wird>
 
-    @Query("SELECT * FROM wirds WHERE id IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<Wird>
-
     @Insert
     fun insertWird(vararg wird: Wird)
 
     @Delete
     fun delete(wird: Wird)
+
+    @Query("UPDATE wirds SET doneDays = :doneDays WHERE id = :wirdId")
+    fun updateDoneDays(wirdId: Int, doneDays: List<String>)
+
+    //update isDone
+    @Query("UPDATE wirds SET isDone = :isDone WHERE id = :wirdId")
+    fun updateIsDone(wirdId: Int, isDone: Boolean)
 }

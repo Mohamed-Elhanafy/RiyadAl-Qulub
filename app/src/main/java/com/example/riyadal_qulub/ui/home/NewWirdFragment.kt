@@ -16,6 +16,7 @@ import com.example.riyadal_qulub.databinding.FragmentNewWirdBinding
 import com.example.riyadal_qulub.db.WirdDatabase
 import com.example.riyadal_qulub.entity.Wird
 import com.example.riyadal_qulub.ui.adapter.DaysAdapter
+import com.example.riyadal_qulub.utils.getLastSevenDays
 import com.example.riyadal_qulub.utils.getNextSevenDays
 import com.example.riyadal_qulub.viewmodel.AddWirdViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -78,15 +79,10 @@ class NewWirdFragment : Fragment() {
         findNavController().navigate(R.id.action_newWirdFragment_to_homeFragment)
     }
 
-    private fun getWeeksDays(): List<Int> {
-        val days = mutableListOf<Int>()
-        this.daysAdapter.daysDiffer.currentList.forEach {
-            if (it.isDone) {
-                //convert month day to day of week number
-                val cal = Calendar.getInstance()
-                cal.set(Calendar.DAY_OF_MONTH, it.dayMonth)
-                days.add(cal.get(Calendar.DAY_OF_WEEK))
-            }
+    private fun getWeeksDays(): List<String> {
+        val days = mutableListOf<String>()
+        daysAdapter.daysDiffer.currentList.filter { it.isDone }.forEach {
+            days.add(it.day)
         }
         return days
     }
@@ -96,11 +92,11 @@ class NewWirdFragment : Fragment() {
 
 
         daysAdapter.daysDiffer.submitList(
-            getNextSevenDays()
+            getLastSevenDays()
         )
         binding.rvDays.apply {
             layoutManager =
-                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, true).apply {
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false).apply {
 
                     isSmoothScrollbarEnabled = false
 

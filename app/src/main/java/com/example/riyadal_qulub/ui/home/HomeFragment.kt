@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.FragmentHomeBinding
 import com.example.riyadal_qulub.db.WirdDatabase
-import com.example.riyadal_qulub.ui.adapter.DaysAdapter
 import com.example.riyadal_qulub.ui.adapter.WirdAdapter
-import com.example.riyadal_qulub.utils.getNextSevenDays
+import com.example.riyadal_qulub.utils.getCurrentDate
+import com.example.riyadal_qulub.utils.getLastSevenDays
 import com.example.riyadal_qulub.viewmodel.HomeViewModel
 
 private const val TAG = "HomeFragment"
@@ -23,7 +23,8 @@ private const val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewmodel by viewModels<HomeViewModel>()
-    private val wirdAdapter by lazy { WirdAdapter() }
+
+    private val wirdAdapter by lazy { WirdAdapter(getLastSevenDays()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,25 +47,50 @@ class HomeFragment : Fragment() {
             findNavController()
                 .navigate(R.id.action_homeFragment_to_newWirdFragment)
         }
+
+        wirdAdapter.setOnItemClickListener {
+            val newDates = mutableListOf<String>()
+            val currentDates = it.doneDays
+            checkIfCurrentDateIsInList(currentDates, newDates)
+            viewmodel.updateDoneDays(database, it.id, newDates)
+            it.isDone = true
+            viewmodel.updateIsDone(database, it.id, it.isDone)
+            Log.i(TAG, "newDates: $newDates")
+            Log.i(TAG, "onViewCreated: ${viewmodel.wirds.value!!}")
+
+        }
+
+
     }
 
-    private fun settingUpWirdRv() {
+    private fun checkIfCurrentDateIsInList(
+        currentDates: List<String>,
+        newDates: MutableList<String>
+    ) {
+        currentDates.forEach {
+            if (it == getCurrentDate()) {
+                newDates.add(it)
+            }
+        }
+        if (newDates.isEmpty()) {
+            newDates.add(getCurrentDate())
+        }
 
+    }
+
+
+    private fun settingUpWirdRv() {
         binding.wirdRecyclerView.apply {
 
             layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true).apply {
-                    reverseLayout = true
-                    stackFromEnd = true
-                }
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = wirdAdapter
 
         }
 
 
-
-
     }
+
 
     private fun observeWirds() {
         viewmodel.wirds.observe(viewLifecycleOwner) {
@@ -79,6 +105,8 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
 
 
 }
