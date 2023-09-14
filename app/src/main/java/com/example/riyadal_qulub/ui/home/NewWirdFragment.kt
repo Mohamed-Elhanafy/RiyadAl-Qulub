@@ -17,21 +17,19 @@ import com.example.riyadal_qulub.db.WirdDatabase
 import com.example.riyadal_qulub.entity.Wird
 import com.example.riyadal_qulub.ui.adapter.DaysAdapter
 import com.example.riyadal_qulub.utils.getLastSevenDays
-import com.example.riyadal_qulub.utils.getNextSevenDays
-import com.example.riyadal_qulub.viewmodel.AddWirdViewModel
+import com.example.riyadal_qulub.viewmodel.HomeViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 private const val TAG = "NewWirdFragment"
 
 class NewWirdFragment : Fragment() {
 
     private lateinit var binding: FragmentNewWirdBinding
-    private val viewModel: AddWirdViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private val daysAdapter by lazy { DaysAdapter() }
 
     override fun onCreateView(

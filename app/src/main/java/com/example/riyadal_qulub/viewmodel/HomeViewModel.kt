@@ -45,4 +45,11 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
+
+    fun addNewWird(database: WirdDatabase , wird: Wird) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.wirdDao().insertWird(wird)
+            _wirds.postValue(database.wirdDao().getAll())
+        }
+    }
 }
