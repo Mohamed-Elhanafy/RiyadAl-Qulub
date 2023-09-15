@@ -5,9 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.riyadal_qulub.db.WirdDatabase
+import com.example.riyadal_qulub.entity.WeekDayItem
 import com.example.riyadal_qulub.entity.Wird
+import com.example.riyadal_qulub.utils.getLastSevenDays
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class HomeViewModel : ViewModel() {
     private val _wirds = MutableLiveData<List<Wird>>()
@@ -46,10 +52,38 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun addNewWird(database: WirdDatabase , wird: Wird) {
+    fun addNewWird(database: WirdDatabase, wird: Wird) {
         viewModelScope.launch(Dispatchers.IO) {
             database.wirdDao().insertWird(wird)
             _wirds.postValue(database.wirdDao().getAll())
         }
     }
+
+    // fun that take list of Dates and check if it's done return last 7 days as WeekDayItem
+    fun getLastSevenDaysAsWeekDayItem(dates: List<Date>): List<WeekDayItem> {
+        val calendar = Calendar.getInstance()
+        val arabicLocale = Locale("ar", "SA") // Use Arabic locale
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", arabicLocale)
+        val dateNumbers = mutableListOf<WeekDayItem>()
+
+        for (i in 0 until 7) {
+            if (dates.isNotEmpty()) {
+                dates.forEach {
+                    val dayOfWeek = dateFormat.format(it)
+                    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+                    val weekDayItem = WeekDayItem(dayOfMonth, dayOfWeek, true)
+                    dateNumbers.add(weekDayItem)
+                    calendar.add(Calendar.DAY_OF_MONTH, -1)
+                }
+            } else {
+                val dayOfWeek = dateFormat.format(calendar.time)
+                val weekDayItem = WeekDayItem(i, dayOfWeek, false)
+                dateNumbers.add(weekDayItem)
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+            }
+        }
+
+        return dateNumbers
+    }
+
 }

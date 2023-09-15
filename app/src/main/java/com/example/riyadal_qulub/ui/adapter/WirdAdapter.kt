@@ -9,40 +9,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.riyadal_qulub.databinding.WirdItemBinding
 import com.example.riyadal_qulub.entity.WeekDayItem
 import com.example.riyadal_qulub.entity.Wird
-import com.example.riyadal_qulub.utils.getCurrentDay
+import com.example.riyadal_qulub.utils.getCurrentDate
+import com.example.riyadal_qulub.utils.getLastSevenDays
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-class WirdAdapter( private var daysList :List<WeekDayItem>) : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
+class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     private var onItemClick: ((Wird) -> Unit)? = null
+    private var onDayClick: ((WeekDayItem) -> Unit)? = null
 
-    // Rest of the adapter code
-
-    fun setOnItemClickListener(listener: (Wird) -> Unit) {
+    fun setOnButtonClickListener(listener: (Wird) -> Unit) {
         onItemClick = listener
     }
+
+    fun setOnDayClickListener(listener: (WeekDayItem) -> Unit) {
+        onDayClick = listener
+    }
+
     inner class WirdViewHolder(private val binding: WirdItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wird: Wird) {
+            val list = getLastSevenDaysFromWird(wird)
+            val daysAdapter = HomeDaysAdapter(list)
+
+            binding.rvDaysList.apply {
+                adapter = daysAdapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            }
+
             binding.apply {
                 tvWirdName.text = wird.name
                 tvWirdUnit.text = "${wird.quantity} ${wird.unit}"
-
-                val daysAdapter = DaysAdapter()
-                rvDaysList.apply {
-                    adapter = daysAdapter
-                    layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-                }
-
-                daysAdapter.daysDiffer.submitList(daysList)
-
-
-
-
-                //if the DayTask is today set it to true
-                daysAdapter.daysDiffer.currentList.forEach {
-                    if (it.day == getCurrentDay()) {
-                        it.isToday = true
-                    }
-                }
 
                 btnDone.setOnClickListener {
                     onItemClick?.invoke(wird)
@@ -50,10 +49,43 @@ class WirdAdapter( private var daysList :List<WeekDayItem>) : RecyclerView.Adapt
 
             }
 
+            daysAdapter.onClick = {
+                onDayClick?.invoke(it)
+            }
+
 
         }
 
+        private fun getLastSevenDaysFromWird(wird: Wird): List<WeekDayItem> {
+
+            val calendar = Calendar.getInstance()
+            val arabicLocale = Locale("ar", "SA") // Use Arabic locale
+            val dateFormat = SimpleDateFormat("EEEE", arabicLocale)
+            val date2Format = SimpleDateFormat("dd MMMM yyyy", arabicLocale)
+            val dateNumbers = mutableListOf<WeekDayItem>()
+
+            for (i in 0 until 7) {
+                val dayOfWeek = dateFormat.format(calendar.time)
+                val date = date2Format.format(calendar.time)
+
+                if (wird.doneDays.contains(date.toString())) {
+                    val weekDayItem = WeekDayItem(i, dayOfWeek, true)
+                    dateNumbers.add(weekDayItem)
+                } else if (getCurrentDate() == date.toString()) {
+                    val weekDayItem = WeekDayItem(i, dayOfWeek, false, isToday = true)
+                    dateNumbers.add(weekDayItem)
+                } else {
+                    val weekDayItem = WeekDayItem(i, dayOfWeek, false, isToday = false)
+                    dateNumbers.add(weekDayItem)
+                }
+
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+            }
+
+            return dateNumbers
+        }
     }
+
 
     private val diffCallback = object : DiffUtil.ItemCallback<Wird>() {
         override fun areItemsTheSame(oldItem: Wird, newItem: Wird): Boolean {
@@ -70,7 +102,7 @@ class WirdAdapter( private var daysList :List<WeekDayItem>) : RecyclerView.Adapt
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WirdViewHolder {
         return WirdViewHolder(
             WirdItemBinding.inflate(
-                LayoutInflater.from(parent.context),parent,false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
@@ -87,10 +119,12 @@ class WirdAdapter( private var daysList :List<WeekDayItem>) : RecyclerView.Adapt
             onItemClick?.invoke(wird)
         }
     }
+
     var onClick: ((Wird) -> Unit)? = null
-
-
 }
+
+
+
 
 
 

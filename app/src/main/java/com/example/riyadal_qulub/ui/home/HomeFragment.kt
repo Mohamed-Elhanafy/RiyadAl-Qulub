@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.FragmentHomeBinding
 import com.example.riyadal_qulub.db.WirdDatabase
+import com.example.riyadal_qulub.entity.Wird
 import com.example.riyadal_qulub.ui.adapter.WirdAdapter
 import com.example.riyadal_qulub.utils.getCurrentDate
-import com.example.riyadal_qulub.utils.getLastSevenDays
 import com.example.riyadal_qulub.viewmodel.HomeViewModel
 
 private const val TAG = "HomeFragment"
@@ -23,8 +23,7 @@ private const val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewmodel by viewModels<HomeViewModel>()
-
-    private val wirdAdapter by lazy { WirdAdapter(getLastSevenDays()) }
+    private val wirdAdapter by lazy { WirdAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,19 +47,29 @@ class HomeFragment : Fragment() {
                 .navigate(R.id.action_homeFragment_to_newWirdFragment)
         }
 
-        wirdAdapter.setOnItemClickListener {
-            val newDates = mutableListOf<String>()
-            val currentDates = it.doneDays
-            checkIfCurrentDateIsInList(currentDates, newDates)
-            viewmodel.updateDoneDays(database, it.id, newDates)
-            it.isDone = true
-            viewmodel.updateIsDone(database, it.id, it.isDone)
-            Log.i(TAG, "newDates: $newDates")
-            Log.i(TAG, "onViewCreated: ${viewmodel.wirds.value!!}")
+        wirdAdapter.setOnButtonClickListener {
+            setUpDoneBtn(it, database)
 
         }
 
+        wirdAdapter.setOnDayClickListener {
+            Log.i(TAG, "Day clicked: ${it.day} ")
+        }
 
+
+    }
+
+    private fun setUpDoneBtn(
+        it: Wird,
+        database: WirdDatabase
+    ) {
+        val newDates = mutableListOf<String>()
+        val doneDays = it.doneDays
+        checkIfCurrentDateIsInList(doneDays, newDates)
+        viewmodel.updateDoneDays(database, it.id, newDates)
+        viewmodel.updateIsDone(database, it.id, it.isDone)
+        Log.i(TAG, "newDates: $newDates")
+        Log.i(TAG, "wirds: ${viewmodel.wirds.value!!}")
     }
 
     private fun checkIfCurrentDateIsInList(
@@ -81,7 +90,6 @@ class HomeFragment : Fragment() {
 
     private fun settingUpWirdRv() {
         binding.wirdRecyclerView.apply {
-
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = wirdAdapter
@@ -96,7 +104,6 @@ class HomeFragment : Fragment() {
         viewmodel.wirds.observe(viewLifecycleOwner) {
             Log.i(TAG, "observeWirds:item count ${it.size}")
             wirdAdapter.differ.submitList(it)
-
             if (viewmodel.wirds.value != null) {
                 Log.i(TAG, "onViewCreated: ${viewmodel.wirds.value!!.size}")
                 binding.emptyAnimation.visibility = View.GONE
