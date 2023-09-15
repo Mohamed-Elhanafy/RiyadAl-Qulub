@@ -1,4 +1,4 @@
-package com.example.riyadal_qulub.ui.home
+package com.example.riyadal_qulub.ui.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater

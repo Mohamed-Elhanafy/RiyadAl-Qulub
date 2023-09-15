@@ -13,15 +13,18 @@
         <action
             android:id="@+id/action_homeFragment_to_newWirdFragment"
             app:destination="@id/newWirdFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_wirdFragment"
+            app:destination="@id/wirdFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.example.riyadal_qulub.ui.home.StatisticsFragment"
+        android:name="com.example.riyadal_qulub.ui.statistics.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.riyadal_qulub.ui.home.SettingsFragment"
+        android:name="com.example.riyadal_qulub.ui.setting.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
@@ -31,6 +34,15 @@
         tools:layout="@layout/fragment_new_wird" >
         <action
             android:id="@+id/action_newWirdFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wirdFragment"
+        android:name="com.example.riyadal_qulub.ui.home.WirdFragment"
+        android:label="fragment_wird"
+        tools:layout="@layout/fragment_wird" >
+        <action
+            android:id="@+id/action_wirdFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

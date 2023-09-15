@@ -49,7 +49,10 @@ class HomeFragment : Fragment() {
 
         wirdAdapter.setOnButtonClickListener {
             setUpDoneBtn(it, database)
-
+        }
+        wirdAdapter.onClick = {
+            Log.i(TAG, "wird: $it")
+            findNavController().navigate(R.id.action_homeFragment_to_wirdFragment)
         }
 
         wirdAdapter.setOnDayClickListener {
@@ -112,8 +115,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
 
 
 }

@@ -18,6 +18,7 @@ import java.util.Locale
 class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     private var onItemClick: ((Wird) -> Unit)? = null
     private var onDayClick: ((WeekDayItem) -> Unit)? = null
+    var onClick: ((Wird) -> Unit)? = null
 
     fun setOnButtonClickListener(listener: (Wird) -> Unit) {
         onItemClick = listener
@@ -116,11 +117,10 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
         holder.bind(wird)
         holder.itemView.setOnClickListener {
             onClick?.invoke(wird)
-            onItemClick?.invoke(wird)
         }
     }
 
-    var onClick: ((Wird) -> Unit)? = null
+
 }
 
 
