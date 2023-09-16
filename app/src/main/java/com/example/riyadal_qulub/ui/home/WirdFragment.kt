@@ -81,7 +81,7 @@ class WirdFragment : Fragment() {
                 if (data.position == DayPosition.MonthDate) {
                     container.textView.setTextColor(Color.BLACK)
                 } else {
-                    container.textView.setTextColor(Color.GRAY)
+                    container.textView.setTextColor(resources.getColor(R.color.main_color_light))
                 }
                 if (data.date == LocalDate.now()) {
                     container.textView.setBackgroundResource(R.drawable.calender_day_background_today)
