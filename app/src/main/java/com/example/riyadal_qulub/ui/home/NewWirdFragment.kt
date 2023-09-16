@@ -70,11 +70,15 @@ class NewWirdFragment : Fragment() {
             )
             viewModel.addNewWird(database, wird)
             navigateToHome()
+
         }
     }
 
     private fun navigateToHome() {
-        findNavController().navigate(R.id.action_newWirdFragment_to_homeFragment)
+        // navigate to home and clear the backstack
+        findNavController().popBackStack(R.id.homeFragment, false)
+        findNavController().navigate(R.id.homeFragment)
+
     }
 
     private fun getWeeksDays(): List<String> {

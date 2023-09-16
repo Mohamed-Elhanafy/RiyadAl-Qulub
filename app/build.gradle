@@ -1,8 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
+
+
 }
 
 android {
@@ -52,8 +56,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    //azan library
-    //implementation 'com.github.ahmedeltaher:Azan:3.0'
+    //Android Ktx
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+
 
 
     //animation library

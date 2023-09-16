@@ -20,7 +20,10 @@ interface WirdDao {
     @Query("UPDATE wirds SET doneDays = :doneDays WHERE id = :wirdId")
     fun updateDoneDays(wirdId: Int, doneDays: List<String>)
 
-    //update isDone
     @Query("UPDATE wirds SET isDone = :isDone WHERE id = :wirdId")
     fun updateIsDone(wirdId: Int, isDone: Boolean)
+
+    //add date to doneDates
+    @Query("UPDATE wirds SET doneDays = :doneDates WHERE id = :wirdId")
+    fun updateDoneDates(wirdId: Int, doneDates: List<String>)
 }

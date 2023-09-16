@@ -23,25 +23,30 @@ class HomeDaysAdapter(var daysList: List<WeekDayItem>) :
             binding.apply {
                 tvDayName.text = day.day
 
-                if (day.isToday && !day.isDone) {
-                    tvDayName.background =
-                        itemView.resources.getDrawable(R.drawable.calender_day_background_today)
-                    tvDayName.setTextColor(itemView.resources.getColor(R.color.white))
-                } else
-                    if (day.isDone) {
+
+                when (day.isDone) {
+                    true -> {
                         tvDayName.background =
                             itemView.resources.getDrawable(R.drawable.calender_day_background)
                         tvDayName.setTextColor(itemView.resources.getColor(R.color.white))
-                    } else {
-                        tvDayName.background =
-                            itemView.resources.getDrawable(R.drawable.calender_day_background_not_selected)
+                    }
+
+                    false -> {
+                        if (day.isToday) {
+                            tvDayName.background =
+                                itemView.resources.getDrawable(R.drawable.calender_day_background_today)
+                            tvDayName.setTextColor(itemView.resources.getColor(R.color.white))
+                        } else
+                            tvDayName.background =
+                                itemView.resources.getDrawable(R.drawable.calender_day_background_not_selected)
                         tvDayName.setTextColor(itemView.resources.getColor(R.color.black))
                     }
 
+                }
             }
         }
-    }
 
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -71,4 +76,5 @@ class HomeDaysAdapter(var daysList: List<WeekDayItem>) :
 
 
     var onClick: ((WeekDayItem) -> Unit)? = null
+
 }

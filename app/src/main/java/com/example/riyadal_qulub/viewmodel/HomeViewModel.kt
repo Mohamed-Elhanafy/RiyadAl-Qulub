@@ -1,5 +1,6 @@
 package com.example.riyadal_qulub.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.riyadal_qulub.db.WirdDatabase
 import com.example.riyadal_qulub.entity.WeekDayItem
 import com.example.riyadal_qulub.entity.Wird
-import com.example.riyadal_qulub.utils.getLastSevenDays
+
+import com.example.riyadal_qulub.utils.getCurrentDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -85,5 +87,28 @@ class HomeViewModel : ViewModel() {
 
         return dateNumbers
     }
+
+    fun addDayToDoneDays(database: WirdDatabase, wirdId: Int, doneDate: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            //update database and _wirds
+            database.wirdDao().updateDoneDays(wirdId, listOf(doneDate))
+
+            _wirds.value!!.forEach {
+                if (it.id == wirdId) {
+                    it.doneDays = listOf(doneDate)
+                }
+            }
+            if (doneDate == getCurrentDate()) {
+                database.wirdDao().updateIsDone(wirdId, true)
+                _wirds.value!!.forEach {
+                    if (it.id == wirdId) {
+                        it.isDone = true
+                    }
+                }
+            }
+            _wirds.postValue(database.wirdDao().getAll())
+        }
+    }
+
 
 }

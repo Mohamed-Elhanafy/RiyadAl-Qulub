@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -48,11 +49,22 @@ class HomeFragment : Fragment() {
         }
 
         wirdAdapter.setOnButtonClickListener {
-            setUpDoneBtn(it, database)
+            if (currentDateIsInList(getCurrentDate(), it.doneDays)) {
+                Toast.makeText(requireActivity(), "تم اضافة الورد", Toast.LENGTH_SHORT).show()
+            } else {
+                viewmodel.addDayToDoneDays(database, it.id, getCurrentDate())
+                wirdAdapter.notifyDataSetChanged()
+            }
+
+            //todo set up some kind of progress indicator and way to redo the wird
         }
         wirdAdapter.onClick = {
             Log.i(TAG, "wird: $it")
-            findNavController().navigate(R.id.action_homeFragment_to_wirdFragment)
+            val b = Bundle().apply {
+                putParcelable("wird", it)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_wirdFragment, b)
+
         }
 
         wirdAdapter.setOnDayClickListener {
@@ -62,32 +74,28 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun setUpDoneBtn(
-        it: Wird,
-        database: WirdDatabase
-    ) {
+    private fun currentDateIsInList(currentDate: String, doneDays: List<String>): Boolean {
         val newDates = mutableListOf<String>()
-        val doneDays = it.doneDays
-        checkIfCurrentDateIsInList(doneDays, newDates)
-        viewmodel.updateDoneDays(database, it.id, newDates)
-        viewmodel.updateIsDone(database, it.id, it.isDone)
-        Log.i(TAG, "newDates: $newDates")
-        Log.i(TAG, "wirds: ${viewmodel.wirds.value!!}")
-    }
-
-    private fun checkIfCurrentDateIsInList(
-        currentDates: List<String>,
-        newDates: MutableList<String>
-    ) {
-        currentDates.forEach {
-            if (it == getCurrentDate()) {
-                newDates.add(it)
+        var inList = false
+        if (doneDays.contains(currentDate)) {
+            Log.i(TAG, "checkIfCurrentDateIsInList: true")
+            doneDays.forEach {
+                if (it != currentDate) {
+                    newDates.add(it)
+                    inList = true
+                }
             }
+        } else {
+            Log.i(TAG, "checkIfCurrentDateIsInList: false")
+            doneDays.forEach {
+                newDates.add(it)
+                inList = false
+            }
+            newDates.add(currentDate)
         }
-        if (newDates.isEmpty()) {
-            newDates.add(getCurrentDate())
-        }
+        Log.i(TAG, "checkIfCurrentDateIsInList: $newDates")
 
+        return inList
     }
 
 
@@ -101,7 +109,6 @@ class HomeFragment : Fragment() {
 
 
     }
-
 
     private fun observeWirds() {
         viewmodel.wirds.observe(viewLifecycleOwner) {
