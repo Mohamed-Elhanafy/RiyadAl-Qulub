@@ -11,4 +11,7 @@
     <string name="et_start_date_hint">تاريخ بداية الورد</string>
     <string name="switch_wird_alarm">إضافة تنبيه للورد</string>
     <string name="et_wird_unit_hint">"وحدة الورد "</string>
+    <string name="delete_wird_dialog_message">هل تريد مسح الورد</string>
+    <string name="accept">نعم</string>
+    <string name="decline">لا</string>
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,8 @@ import com.example.riyadal_qulub.entity.Wird
 import com.example.riyadal_qulub.ui.adapter.WirdAdapter
 import com.example.riyadal_qulub.utils.getCurrentDate
 import com.example.riyadal_qulub.viewmodel.HomeViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "HomeFragment"
 
@@ -66,6 +69,37 @@ class HomeFragment : Fragment() {
                 putParcelable("wird", it)
             }
             findNavController().navigate(R.id.action_homeFragment_to_wirdFragment, b)
+
+        }
+        wirdAdapter.onLongClick = { wird ->
+            Log.i(TAG, "onViewCreated: long click")
+            //set up snackbar to to not delete the wird
+            //add dialog to confirm delete
+            MaterialAlertDialogBuilder(requireActivity())
+                .setMessage(resources.getString(R.string.delete_wird_dialog_message))
+                .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+                    // Respond to negative button press
+                }
+                .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                    Snackbar.make(
+                        binding.root,
+                        "هل أنت متأكد من حذف الورد؟",
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction("نعم") {
+
+                            Toast.makeText(
+                                requireContext(),
+                                " تم المسح ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewmodel.deleteWird(database, wird)
+                            wirdAdapter.notifyDataSetChanged()
+                        }
+                        .show()
+                }
+                .show()
+
 
         }
 
@@ -118,7 +152,9 @@ class HomeFragment : Fragment() {
             wirdAdapter.differ.submitList(it)
             if (viewmodel.wirds.value!!.isNotEmpty()) {
                 Log.i(TAG, "onViewCreated: ${viewmodel.wirds.value!!.size}")
-                binding.emptyAnimation.visibility = View.GONE
+            } else {
+                Log.i(TAG, "onViewCreated: empty")
+                binding.emptyAnimation.visibility = View.VISIBLE
             }
         }
     }

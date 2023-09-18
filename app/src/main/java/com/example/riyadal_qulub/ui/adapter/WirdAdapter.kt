@@ -15,10 +15,13 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+//implement long press click listener
 class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     private var onItemClick: ((Wird) -> Unit)? = null
     private var onDayClick: ((WeekDayItem) -> Unit)? = null
     var onClick: ((Wird) -> Unit)? = null
+    var onLongClick: ((Wird) -> Unit)? = null
+
 
     fun setOnButtonClickListener(listener: (Wird) -> Unit) {
         onItemClick = listener
@@ -117,6 +120,10 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
         holder.bind(wird)
         holder.itemView.setOnClickListener {
             onClick?.invoke(wird)
+        }
+        holder.itemView.setOnLongClickListener {
+            onLongClick?.invoke(wird)
+            true
         }
     }
 

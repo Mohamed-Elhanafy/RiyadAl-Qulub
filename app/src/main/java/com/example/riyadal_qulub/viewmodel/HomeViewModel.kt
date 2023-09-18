@@ -131,5 +131,13 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun deleteWird(database: WirdDatabase, wird: Wird) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.wirdDao().delete(wird)
+            _wirds.postValue(database.wirdDao().getAll())
+        }
+
+    }
+
 
 }
