@@ -90,23 +90,44 @@ class HomeViewModel : ViewModel() {
 
     fun addDayToDoneDays(database: WirdDatabase, wirdId: Int, doneDate: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            //update database and _wirds
-            database.wirdDao().updateDoneDays(wirdId, listOf(doneDate))
+            val oldDoneDays = wirds.value!!.find { it.id == wirdId }!!.doneDays
 
-            _wirds.value!!.forEach {
-                if (it.id == wirdId) {
-                    it.doneDays = listOf(doneDate)
+            //check if doneDate is in oldDoneDays
+            if (oldDoneDays.contains(doneDate)) {
+                //remove doneDate from oldDoneDays
+                val newDoneDays = mutableListOf<String>()
+                oldDoneDays.forEach {
+                    if (it != doneDate) {
+                        newDoneDays.add(it)
+                    }
                 }
-            }
-            if (doneDate == getCurrentDate()) {
-                database.wirdDao().updateIsDone(wirdId, true)
+                //update database and _wirds
+                database.wirdDao().updateDoneDays(wirdId, newDoneDays)
+                _wirds.postValue(database.wirdDao().getAll())
                 _wirds.value!!.forEach {
                     if (it.id == wirdId) {
-                        it.isDone = true
+                        it.doneDays = newDoneDays
+                    }
+                }
+            } else {
+                //add doneDate to oldDoneDays
+                val newDoneDays = mutableListOf<String>()
+                oldDoneDays.forEach {
+                    newDoneDays.add(it)
+                }
+                newDoneDays.add(doneDate)
+                //update database and _wirds
+                database.wirdDao().updateDoneDays(wirdId, newDoneDays)
+                _wirds.postValue(database.wirdDao().getAll())
+                _wirds.value!!.forEach {
+                    if (it.id == wirdId) {
+                        it.doneDays = newDoneDays
                     }
                 }
             }
-            _wirds.postValue(database.wirdDao().getAll())
+
+
+
         }
     }
 

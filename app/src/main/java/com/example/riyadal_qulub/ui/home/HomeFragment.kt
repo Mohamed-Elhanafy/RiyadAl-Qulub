@@ -36,8 +36,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        wirdAdapter.notifyDataSetChanged()
         val database = WirdDatabase.getDatabase(requireContext())
         viewmodel.getAllWirds(database)
+
         observeWirds()
 
 
@@ -50,7 +52,7 @@ class HomeFragment : Fragment() {
 
         wirdAdapter.setOnButtonClickListener {
             if (currentDateIsInList(getCurrentDate(), it.doneDays)) {
-                Toast.makeText(requireActivity(), "تم اضافة الورد", Toast.LENGTH_SHORT).show()
+                //todo add dialog and change the icon of the button
             } else {
                 viewmodel.addDayToDoneDays(database, it.id, getCurrentDate())
                 wirdAdapter.notifyDataSetChanged()
@@ -114,11 +116,9 @@ class HomeFragment : Fragment() {
         viewmodel.wirds.observe(viewLifecycleOwner) {
             Log.i(TAG, "observeWirds:item count ${it.size}")
             wirdAdapter.differ.submitList(it)
-            if (viewmodel.wirds.value != null) {
+            if (viewmodel.wirds.value!!.isNotEmpty()) {
                 Log.i(TAG, "onViewCreated: ${viewmodel.wirds.value!!.size}")
                 binding.emptyAnimation.visibility = View.GONE
-            } else {
-                Log.i(TAG, "onViewCreated: null")
             }
         }
     }
