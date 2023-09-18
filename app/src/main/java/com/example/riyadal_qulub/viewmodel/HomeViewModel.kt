@@ -61,35 +61,10 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    // fun that take list of Dates and check if it's done return last 7 days as WeekDayItem
-    fun getLastSevenDaysAsWeekDayItem(dates: List<Date>): List<WeekDayItem> {
-        val calendar = Calendar.getInstance()
-        val arabicLocale = Locale("ar", "SA") // Use Arabic locale
-        val dateFormat = SimpleDateFormat("dd MMMM yyyy", arabicLocale)
-        val dateNumbers = mutableListOf<WeekDayItem>()
-
-        for (i in 0 until 7) {
-            if (dates.isNotEmpty()) {
-                dates.forEach {
-                    val dayOfWeek = dateFormat.format(it)
-                    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-                    val weekDayItem = WeekDayItem(dayOfMonth, dayOfWeek, true)
-                    dateNumbers.add(weekDayItem)
-                    calendar.add(Calendar.DAY_OF_MONTH, -1)
-                }
-            } else {
-                val dayOfWeek = dateFormat.format(calendar.time)
-                val weekDayItem = WeekDayItem(i, dayOfWeek, false)
-                dateNumbers.add(weekDayItem)
-                calendar.add(Calendar.DAY_OF_MONTH, -1)
-            }
-        }
-
-        return dateNumbers
-    }
 
     fun addDayToDoneDays(database: WirdDatabase, wirdId: Int, doneDate: String) {
         viewModelScope.launch(Dispatchers.IO) {
+
             val oldDoneDays = wirds.value!!.find { it.id == wirdId }!!.doneDays
 
             //check if doneDate is in oldDoneDays
@@ -103,10 +78,14 @@ class HomeViewModel : ViewModel() {
                 }
                 //update database and _wirds
                 database.wirdDao().updateDoneDays(wirdId, newDoneDays)
+
                 _wirds.postValue(database.wirdDao().getAll())
                 _wirds.value!!.forEach {
                     if (it.id == wirdId) {
                         it.doneDays = newDoneDays
+                        it.isDone = true
+
+
                     }
                 }
             } else {
@@ -127,7 +106,6 @@ class HomeViewModel : ViewModel() {
             }
 
 
-
         }
     }
 
@@ -137,6 +115,30 @@ class HomeViewModel : ViewModel() {
             _wirds.postValue(database.wirdDao().getAll())
         }
 
+    }
+
+    fun removeDayFromDoneDays(database: WirdDatabase, id: Int, currentDate: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val oldDoneDays = wirds.value!!.find { it.id == id }!!.doneDays
+            val newDoneDays = mutableListOf<String>()
+            oldDoneDays.forEach {
+                if (it != currentDate) {
+                    newDoneDays.add(it)
+                }
+            }
+            //update database and _wirds
+            database.wirdDao().updateIsDone(id, false)
+            database.wirdDao().updateDoneDays(id, newDoneDays)
+            _wirds.postValue(database.wirdDao().getAll())
+            _wirds.value!!.forEach {
+                if (it.id == id) {
+                    it.doneDays = newDoneDays
+                    it.isDone = false
+                }
+            }
+
+
+        }
     }
 
 

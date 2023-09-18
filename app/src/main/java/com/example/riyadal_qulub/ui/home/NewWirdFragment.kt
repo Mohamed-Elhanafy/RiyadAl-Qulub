@@ -58,19 +58,23 @@ class NewWirdFragment : Fragment() {
         wirdUnit()
 
         binding.btnAddNewWird.setOnClickListener {
-            val wird = Wird(
-                id = 0,
-                name = binding.etWirdName.editText?.text.toString(),
-                startDate = binding.etStartDate.editText?.text.toString(),
-                unit = binding.etWirdUnit.editText?.text.toString(),
-                quantity = binding.etWirdQuantity.editText?.text.toString().toInt(),
-                isAlarm = binding.switchAlarm.isChecked,
-                alarmTime = binding.etWirdTime.editText?.text.toString(),
-                wirdDays = getWeeksDays(),
-            )
-            viewModel.addNewWird(database, wird)
-            navigateToHome()
-
+            if (binding.etWirdName.editText?.text.toString().isEmpty()) {
+                binding.etWirdName.error = "ادخل اسم الورد"
+                return@setOnClickListener
+            } else {
+                val wird = Wird(
+                    id = 0,
+                    name = binding.etWirdName.editText?.text.toString(),
+                    startDate = binding.etStartDate.editText?.text.toString(),
+                    unit = binding.etWirdUnit.editText?.text.toString(),
+                    quantity = binding.etWirdQuantity.editText?.text.toString().toInt(),
+                    isAlarm = binding.switchAlarm.isChecked,
+                    alarmTime = binding.etWirdTime.editText?.text.toString(),
+                    wirdDays = getWeeksDays(),
+                )
+                viewModel.addNewWird(database, wird)
+                navigateToHome()
+            }
         }
     }
 
@@ -98,7 +102,11 @@ class NewWirdFragment : Fragment() {
         )
         binding.rvDays.apply {
             layoutManager =
-                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false).apply {
+                LinearLayoutManager(
+                    requireActivity(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                ).apply {
 
                     isSmoothScrollbarEnabled = false
 

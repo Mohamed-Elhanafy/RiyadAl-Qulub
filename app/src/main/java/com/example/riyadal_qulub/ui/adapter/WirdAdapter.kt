@@ -2,10 +2,12 @@ package com.example.riyadal_qulub.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.WirdItemBinding
 import com.example.riyadal_qulub.entity.WeekDayItem
 import com.example.riyadal_qulub.entity.Wird
@@ -21,7 +23,7 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     private var onDayClick: ((WeekDayItem) -> Unit)? = null
     var onClick: ((Wird) -> Unit)? = null
     var onLongClick: ((Wird) -> Unit)? = null
-
+    var wird2:Wird ?= null
 
     fun setOnButtonClickListener(listener: (Wird) -> Unit) {
         onItemClick = listener
@@ -49,6 +51,8 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
 
                 btnDone.setOnClickListener {
                     onItemClick?.invoke(wird)
+                    notifyDataSetChanged()
+                    daysAdapter.notifyDataSetChanged()
                 }
 
             }
@@ -57,6 +61,16 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
                 onDayClick?.invoke(it)
             }
 
+            when (wird.doneDays.contains(getCurrentDate())) {
+                true -> {
+                    binding.btnDone.icon =
+                        getDrawable(binding.root.context, R.drawable.ic_refresh)
+                }
+                false -> {
+                    binding.btnDone.icon =
+                        getDrawable(binding.root.context, R.drawable.ic_check)
+                }
+            }
 
         }
 
@@ -118,6 +132,7 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     override fun onBindViewHolder(holder: WirdViewHolder, position: Int) {
         val wird = differ.currentList[position]
         holder.bind(wird)
+        wird2 = differ.currentList[position]
         holder.itemView.setOnClickListener {
             onClick?.invoke(wird)
         }
