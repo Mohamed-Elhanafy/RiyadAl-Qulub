@@ -44,7 +44,7 @@ class NewWirdFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val database = WirdDatabase.getDatabase(requireContext())
+        val database = WirdDatabase.getDatabase(requireContext().applicationContext)
         daysAdapter.onClick = {
 
             Log.i(TAG, daysAdapter.daysDiffer.currentList.filter { it.isDone }.size.toString())

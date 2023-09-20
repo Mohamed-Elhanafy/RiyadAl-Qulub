@@ -142,4 +142,36 @@ class HomeViewModel : ViewModel() {
     }
 
 
+    fun getStatistics(database: WirdDatabase): List<String> {
+        val daysCounter = mutableListOf<String>()
+        viewModelScope.launch(Dispatchers.IO) {
+
+            _wirds.postValue(database.wirdDao().getAll())
+            _wirds.value?.forEach {
+                daysCounter.add("count: ${it.doneDays.size}")
+                it.doneDays.forEach { day ->
+                    daysCounter.add(day)
+                }
+            }
+
+        }
+
+        return daysCounter
+    }
+
+    fun getLastSevenDays(): List<String> {
+        val calendar = Calendar.getInstance()
+        val arabicLocale = Locale("ar", "SA") // Use Arabic locale
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", arabicLocale)
+        val dateNumbers = mutableListOf<String>()
+
+        for (i in 0 until 7) {
+            val dayOfWeek = dateFormat.format(calendar.time)
+            dateNumbers.add(dayOfWeek)
+            calendar.add(Calendar.DAY_OF_MONTH, -1)
+        }
+
+        return dateNumbers
+    }
+
 }

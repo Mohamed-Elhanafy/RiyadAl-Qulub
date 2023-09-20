@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         wirdAdapter.notifyDataSetChanged()
-        val database = WirdDatabase.getDatabase(requireContext())
+        val database = WirdDatabase.getDatabase(requireContext().applicationContext)
         viewmodel.getAllWirds(database)
 
         observeWirds()
@@ -193,7 +193,7 @@ class HomeFragment : Fragment() {
     private fun settingUpWirdRv() {
         binding.wirdRecyclerView.apply {
             layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             adapter = wirdAdapter
 
         }

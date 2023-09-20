@@ -81,4 +81,7 @@ dependencies {
 
     // The compose calendar library
     implementation 'com.kizitonwose.calendar:compose:2.3.0'
+
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.5'
+
 }

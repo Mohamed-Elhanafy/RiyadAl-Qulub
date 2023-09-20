@@ -10,4 +10,5 @@
     <string name="et_alarm_time_hint">"ادخل معاد تنبيه الورد اليومي "</string>
     <string name="et_wird_quantity_hint">كمية الورد</string>
     <string name="btn_add_new_wird_txt">إضافة ورد جديد</string>
+    <string name="statistics_fragment_title">الإحصائيات</string>
 </resources>

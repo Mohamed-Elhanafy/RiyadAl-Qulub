@@ -5,4 +5,8 @@
         <item name="android:fontFamily">@font/tajawal</item>
         ...
     </style>
+    <style name="progressbars">
+        <item name="android:fontFamily">@font/tajawal</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+    </style>
 </resources>
