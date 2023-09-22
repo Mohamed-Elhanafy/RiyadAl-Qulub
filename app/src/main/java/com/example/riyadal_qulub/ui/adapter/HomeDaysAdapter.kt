@@ -60,13 +60,10 @@ class HomeDaysAdapter(var daysList: List<WeekDayItem>) :
     override fun onBindViewHolder(holder: HomeDaysAdapter.HomeDaysViewHolder, position: Int) {
         val day = list[position]
         holder.bind(day)
-
         holder.itemView.setOnClickListener {
             day.isDone = !day.isDone
             notifyItemChanged(position)
-            onClick?.let {
-                it(day)
-            }
+            onClick?.let { it(day) }
         }
 
     }

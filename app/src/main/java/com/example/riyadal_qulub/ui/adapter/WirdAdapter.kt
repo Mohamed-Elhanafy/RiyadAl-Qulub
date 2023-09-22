@@ -21,7 +21,7 @@ import java.util.Locale
 //implement long press click listener
 class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     private var onItemClick: ((Wird) -> Unit)? = null
-    private var onDayClick: ((WeekDayItem , Wird) -> Unit)? = null
+    private var onDayClick: ((WeekDayItem, Wird) -> Unit)? = null
     var onClick: ((Wird) -> Unit)? = null
     var onLongClick: ((Wird) -> Unit)? = null
 
@@ -30,7 +30,7 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
         onItemClick = listener
     }
 
-    fun setOnDayClickListener(listener: (WeekDayItem ,Wird) -> Unit) {
+    fun setOnDayClickListener(listener: (WeekDayItem, Wird) -> Unit) {
         onDayClick = listener
     }
 
@@ -48,7 +48,9 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
 
             binding.apply {
                 tvWirdName.text = wird.name
-                tvWirdUnit.text = "${wird.quantity} ${wird.unit}"
+                if (wird.quantity != 0) {
+                    tvWirdUnit.text = "${wird.quantity} ${wird.unit}"
+                }
 
                 btnDone.setOnClickListener {
                     onItemClick?.invoke(wird)
@@ -59,7 +61,7 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
             }
 
             daysAdapter.onClick = {
-                onDayClick?.invoke(it , wird)
+                onDayClick?.invoke(it, wird)
                 Log.i("TAG", "bind: ${it.id}")
             }
 
@@ -68,6 +70,7 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
                     binding.btnDone.icon =
                         getDrawable(binding.root.context, R.drawable.ic_refresh)
                 }
+
                 false -> {
                     binding.btnDone.icon =
                         getDrawable(binding.root.context, R.drawable.ic_check)
@@ -83,25 +86,25 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
             val dateFormat = SimpleDateFormat("EEEE", arabicLocale)
             val date2Format = SimpleDateFormat("dd MMMM yyyy", arabicLocale)
             val dateNumbers = mutableListOf<WeekDayItem>()
-
+            //check is the day is in the list of wird.wirdDays and add it to the list if it's not there and change the isActive to true
+            //if it's there change the isActive to false
             for (i in 0 until 7) {
                 val dayOfWeek = dateFormat.format(calendar.time)
                 val date = date2Format.format(calendar.time)
 
                 if (wird.doneDays.contains(date.toString())) {
-                    val weekDayItem = WeekDayItem(i+wird.id, dayOfWeek, true)
+                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, true)
                     dateNumbers.add(weekDayItem)
                 } else if (getCurrentDate() == date.toString()) {
-                    val weekDayItem = WeekDayItem(i+wird.id, dayOfWeek, false, isToday = true)
+                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, false, isToday = true)
                     dateNumbers.add(weekDayItem)
                 } else {
-                    val weekDayItem = WeekDayItem(i+wird.id, dayOfWeek, false, isToday = false)
+                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, false, isToday = false)
                     dateNumbers.add(weekDayItem)
                 }
 
                 calendar.add(Calendar.DAY_OF_MONTH, -1)
             }
-
             return dateNumbers
         }
     }
