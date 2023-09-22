@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
         }
         settingUpOnLongClick(database)
 
-        wirdAdapter.setOnDayClickListener {
+        wirdAdapter.setOnDayClickListener { it, wird ->
             val calendar = Calendar.getInstance()
             val arabicLocale = Locale("ar", "SA") // Use Arabic locale
             val dateFormat = SimpleDateFormat("EEEE", arabicLocale)
@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
                 }
                 calendar.add(Calendar.DAY_OF_MONTH, -1)
             }
-            var wird = wirdAdapter.wird2
+
             //check if the day is in the list of wird.doneDays
             if (!currentDateIsInList(dayOfWeek, wird!!.doneDays)) {
                 viewmodel.addDayToDoneDays(database, wird.id, dayOfWeek)

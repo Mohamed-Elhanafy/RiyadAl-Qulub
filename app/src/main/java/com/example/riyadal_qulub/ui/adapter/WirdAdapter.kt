@@ -1,5 +1,6 @@
 package com.example.riyadal_qulub.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -20,16 +21,16 @@ import java.util.Locale
 //implement long press click listener
 class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     private var onItemClick: ((Wird) -> Unit)? = null
-    private var onDayClick: ((WeekDayItem) -> Unit)? = null
+    private var onDayClick: ((WeekDayItem , Wird) -> Unit)? = null
     var onClick: ((Wird) -> Unit)? = null
     var onLongClick: ((Wird) -> Unit)? = null
-    var wird2:Wird ?= null
+
 
     fun setOnButtonClickListener(listener: (Wird) -> Unit) {
         onItemClick = listener
     }
 
-    fun setOnDayClickListener(listener: (WeekDayItem) -> Unit) {
+    fun setOnDayClickListener(listener: (WeekDayItem ,Wird) -> Unit) {
         onDayClick = listener
     }
 
@@ -58,7 +59,8 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
             }
 
             daysAdapter.onClick = {
-                onDayClick?.invoke(it)
+                onDayClick?.invoke(it , wird)
+                Log.i("TAG", "bind: ${it.id}")
             }
 
             when (wird.doneDays.contains(getCurrentDate())) {
@@ -87,13 +89,13 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
                 val date = date2Format.format(calendar.time)
 
                 if (wird.doneDays.contains(date.toString())) {
-                    val weekDayItem = WeekDayItem(i, dayOfWeek, true)
+                    val weekDayItem = WeekDayItem(i+wird.id, dayOfWeek, true)
                     dateNumbers.add(weekDayItem)
                 } else if (getCurrentDate() == date.toString()) {
-                    val weekDayItem = WeekDayItem(i, dayOfWeek, false, isToday = true)
+                    val weekDayItem = WeekDayItem(i+wird.id, dayOfWeek, false, isToday = true)
                     dateNumbers.add(weekDayItem)
                 } else {
-                    val weekDayItem = WeekDayItem(i, dayOfWeek, false, isToday = false)
+                    val weekDayItem = WeekDayItem(i+wird.id, dayOfWeek, false, isToday = false)
                     dateNumbers.add(weekDayItem)
                 }
 
@@ -132,7 +134,7 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
     override fun onBindViewHolder(holder: WirdViewHolder, position: Int) {
         val wird = differ.currentList[position]
         holder.bind(wird)
-        wird2 = differ.currentList[position]
+
         holder.itemView.setOnClickListener {
             onClick?.invoke(wird)
         }
