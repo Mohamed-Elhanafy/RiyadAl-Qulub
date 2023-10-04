@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.DaysItemBinding
 import com.example.riyadal_qulub.entity.WeekDayItem
+import com.example.riyadal_qulub.entity.WirdStatus
 
 class DaysAdapter() :
     RecyclerView.Adapter<DaysAdapter.DaysViewHolder>() {
@@ -16,21 +17,25 @@ class DaysAdapter() :
         fun bind(day: WeekDayItem) {
             binding.apply {
                 tvDayName.text = day.day
-
-                if (day.isToday && !day.isDone) {
-                    tvDayName.background =
-                        itemView.resources.getDrawable(R.drawable.calender_day_background_today)
-                    tvDayName.setTextColor(itemView.resources.getColor(R.color.white))
-                } else
-                    if (day.isDone) {
+                when (day.wirdStatus) {
+                    WirdStatus.Done -> {
                         tvDayName.background =
                             itemView.resources.getDrawable(R.drawable.calender_day_background)
                         tvDayName.setTextColor(itemView.resources.getColor(R.color.white))
-                    } else {
+                    }
+
+                    WirdStatus.IsToday -> {
+                        tvDayName.background =
+                            itemView.resources.getDrawable(R.drawable.calender_day_background_today)
+                        tvDayName.setTextColor(itemView.resources.getColor(R.color.white))
+                    }
+
+                    WirdStatus.NotDone -> {
                         tvDayName.background =
                             itemView.resources.getDrawable(R.drawable.calender_day_background_not_selected)
                         tvDayName.setTextColor(itemView.resources.getColor(R.color.black))
                     }
+                }
 
             }
         }
@@ -59,7 +64,12 @@ class DaysAdapter() :
         val day = daysDiffer.currentList[position]
         holder.bind(day)
         holder.itemView.setOnClickListener {
-            day.isDone = !day.isDone
+
+            when(day.wirdStatus){
+                WirdStatus.Done -> day.wirdStatus = WirdStatus.NotDone
+                WirdStatus.IsToday -> WirdStatus.IsToday
+                WirdStatus.NotDone -> day.wirdStatus = WirdStatus.Done
+            }
             notifyItemChanged(position)
             onClick?.let { it(day) }
         }

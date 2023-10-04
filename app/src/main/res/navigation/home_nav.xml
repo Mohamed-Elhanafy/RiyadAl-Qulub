@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_newWirdFragment"
-            app:destination="@id/newWirdFragment" />
+            app:destination="@id/newWirdFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_wirdFragment"
             app:destination="@id/wirdFragment" />
@@ -34,7 +35,8 @@
         tools:layout="@layout/fragment_new_wird" >
         <action
             android:id="@+id/action_newWirdFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/wirdFragment"
@@ -43,7 +45,7 @@
         tools:layout="@layout/fragment_wird" >
         <action
             android:id="@+id/action_wirdFragment_to_homeFragment"
-            app:destination="@id/homeFragment"/>
+            app:destination="@id/homeFragment" />
         <argument
             android:name="wird"
             app:argType="com.example.riyadal_qulub.entity.Wird" />

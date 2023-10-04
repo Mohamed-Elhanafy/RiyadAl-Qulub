@@ -15,6 +15,7 @@ import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.FragmentNewWirdBinding
 import com.example.riyadal_qulub.db.WirdDatabase
 import com.example.riyadal_qulub.entity.Wird
+import com.example.riyadal_qulub.entity.WirdStatus
 import com.example.riyadal_qulub.ui.adapter.DaysAdapter
 import com.example.riyadal_qulub.utils.getLastSevenDays
 import com.example.riyadal_qulub.viewmodel.HomeViewModel
@@ -37,7 +38,6 @@ class NewWirdFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNewWirdBinding.inflate(LayoutInflater.from(context), container, false)
-        //database = WirdDatabase.getDatabase(requireContext())
         return binding.root
     }
 
@@ -46,8 +46,9 @@ class NewWirdFragment : Fragment() {
 
         val database = WirdDatabase.getDatabase(requireContext().applicationContext)
         daysAdapter.onClick = {
-
-            Log.i(TAG, daysAdapter.daysDiffer.currentList.filter { it.isDone }.size.toString())
+            getWeeksDays().forEach{
+                Log.i(TAG, it)
+            }
         }
 
         setUpdaysRv()
@@ -87,8 +88,9 @@ class NewWirdFragment : Fragment() {
 
     private fun getWeeksDays(): List<String> {
         val days = mutableListOf<String>()
-        daysAdapter.daysDiffer.currentList.filter { it.isDone }.forEach {
-            days.add(it.day)
+        daysAdapter.daysDiffer.currentList.forEach {
+            if (it.wirdStatus.toString() == "Done")
+                days.add(it.day)
         }
         return days
     }

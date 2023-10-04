@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.riyadal_qulub.entity.WeekDayItem
+import com.example.riyadal_qulub.entity.WirdStatus
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
@@ -38,7 +39,7 @@ fun getNextSevenDays(): List<WeekDayItem> {
     for (i in 0 until 7) {
         val dayOfWeek = dateFormat.format(calendar.time)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val weekDayItem = WeekDayItem(i, dayOfWeek, false)
+        val weekDayItem = WeekDayItem(i, dayOfWeek, WirdStatus.NotDone)
         dateNumbers.add(weekDayItem)
         calendar.add(Calendar.DAY_OF_MONTH, 1)
     }
@@ -55,7 +56,7 @@ fun getLastSevenDays():List<WeekDayItem>{
     for (i in 0 until 7) {
         val dayOfWeek = dateFormat.format(calendar.time)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        val weekDayItem = WeekDayItem(i, dayOfWeek, false)
+        val weekDayItem = WeekDayItem(i, dayOfWeek, WirdStatus.NotDone)
         dateNumbers.add(weekDayItem)
         calendar.add(Calendar.DAY_OF_MONTH, -1)
     }

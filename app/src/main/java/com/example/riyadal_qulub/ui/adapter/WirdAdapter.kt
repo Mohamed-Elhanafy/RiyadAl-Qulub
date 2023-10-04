@@ -12,6 +12,7 @@ import com.example.riyadal_qulub.R
 import com.example.riyadal_qulub.databinding.WirdItemBinding
 import com.example.riyadal_qulub.entity.WeekDayItem
 import com.example.riyadal_qulub.entity.Wird
+import com.example.riyadal_qulub.entity.WirdStatus
 import com.example.riyadal_qulub.utils.getCurrentDate
 import com.example.riyadal_qulub.utils.getLastSevenDays
 import java.text.SimpleDateFormat
@@ -93,13 +94,13 @@ class WirdAdapter() : RecyclerView.Adapter<WirdAdapter.WirdViewHolder>() {
                 val date = date2Format.format(calendar.time)
 
                 if (wird.doneDays.contains(date.toString())) {
-                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, true)
+                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, WirdStatus.Done)
                     dateNumbers.add(weekDayItem)
                 } else if (getCurrentDate() == date.toString()) {
-                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, false, isToday = true)
+                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, WirdStatus.IsToday)
                     dateNumbers.add(weekDayItem)
                 } else {
-                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, false, isToday = false)
+                    val weekDayItem = WeekDayItem(i + wird.id, dayOfWeek, WirdStatus.NotDone)
                     dateNumbers.add(weekDayItem)
                 }
 
