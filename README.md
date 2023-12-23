@@ -17,8 +17,6 @@ Riyad Al-Qulub is a humble Android application designed with the primary goal of
 ### 3. **User-Friendly Interface**
    - The app boasts an intuitive and user-friendly interface, making it accessible to users of all ages and tech backgrounds.
 
-### 4. **Offline Access**
-   - No internet connection is required to use the app, ensuring that you can engage in your spiritual practices anytime, anywhere.
 
 ## Screenshots
 
